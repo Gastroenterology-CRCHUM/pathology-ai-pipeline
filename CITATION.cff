@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software itself and the associated manuscript (citation details below to be finalized upon publication)."
+title: "pathology-ai-pipeline: AI-assisted pathology report extraction for post-polypectomy surveillance"
+version: 1.0.0
+date-released: 2026-10-06
+type: software
+authors:
+  - family-names: Kandlikar-Bloch
+    given-names: Mira
+  - family-names: Kmeyha
+    given-names: Lara
+  - family-names: Moulla
+    given-names: Ramy
+  - family-names: von Renteln
+    given-names: Daniel
+    email: TODO-confirm-public-contact-email-before-release
+repository-code: "TODO: add repository URL once published"
+license: MIT
+preferred-citation:
+  type: article
+  title: "Artificial intelligence-assisted pathology processing for post-polypectomy surveillance"
+  authors:
+    - family-names: Kmeyha
+      given-names: Lara
+    - family-names: Kandlikar-Bloch
+      given-names: Mira
+    - family-names: Moulla
+      given-names: Ramy
+    - name: "et al."
+    - family-names: von Renteln
+      given-names: Daniel
+  notes: "Corresponding author: Daniel von Renteln, MD. Manuscript submitted; journal, volume, pages, and DOI to be added once the article is accepted and published - do not release this file publicly with placeholder citation details still present."

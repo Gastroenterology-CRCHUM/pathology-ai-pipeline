@@ -1,0 +1,13 @@
+# Core (deterministic logic: codebook, prompt, validation rules, specimen
+# matching, USMSTF/ESGE calculators, stats)
+pandas==2.3.3
+numpy==2.2.6
+
+# Dev / tests
+pytest>=7.0
+
+# Optional: only needed if you wire this package up to a real running Ollama
+# instance for end-to-end extraction (see README "Running against a real
+# model"). Not required to run the synthetic demo, tests, or any of the
+# deterministic rule/guideline logic.
+requests>=2.28

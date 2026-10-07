@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+.vscode/
+.idea/
+.DS_Store
+
+# Belt-and-suspenders: this repository must never contain patient-level data,
+# real pathology reports, REDCap exports, database schema, hospital
+# integrations, or credentials. These patterns are a safety net, not a
+# substitute for reviewing `git status`/`git diff` before every commit.
+*.csv
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.env
+secrets*
+credentials*
+!examples/**/*.csv
