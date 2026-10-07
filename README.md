@@ -12,7 +12,8 @@ contains the pipeline's actual logic, prompt, codebook, and statistical
 methods - fully generic and re-runnable - but **no patient data** (see
 [What this repository does not contain](#what-this-repository-does-not-contain)).
 
-![Pipeline workflow overview](docs/workflow.svg)
+<img width="573" height="479" alt="Screenshot 2026-10-07 at 3 39 01 PM" src="https://github.com/user-attachments/assets/c3405954-9e9b-459a-9dbb-98b91a53fed5" />
+
 
 ## The clinical problem
 
