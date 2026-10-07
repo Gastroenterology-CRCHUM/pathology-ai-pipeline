@@ -1,0 +1,17 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimen: A - Ascending colon polyp
+
+CLINICAL HISTORY: Surveillance colonoscopy. One 5 mm polyp removed from the
+ascending colon, submitted in multiple pieces.
+
+GROSS DESCRIPTION: Received in formalin, three small tan fragments, aggregate
+measuring 0.5 cm.
+
+MICROSCOPIC DESCRIPTION: Sections show fragments of tubular adenoma, low-grade
+dysplasia. The fragmented nature of the specimen precludes assessment of
+margins but is sufficient for histologic classification.
+
+DIAGNOSIS:
+A. Ascending colon, polypectomy: Fragments of tubular adenoma, low-grade
+   dysplasia.

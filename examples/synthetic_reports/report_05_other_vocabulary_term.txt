@@ -1,0 +1,14 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimen: A - Cecal polyp
+
+CLINICAL HISTORY: Screening colonoscopy. One 4 mm polyp removed from the cecum.
+
+GROSS DESCRIPTION: One fragment of tan-pink tissue, 0.4 cm.
+
+MICROSCOPIC DESCRIPTION: Sections show colonic mucosa with a prominent lymphoid
+follicle and overlying attenuated epithelium. No adenomatous change, dysplasia,
+or malignancy identified.
+
+DIAGNOSIS:
+A. Cecum, polypectomy: Lymphoid follicle.

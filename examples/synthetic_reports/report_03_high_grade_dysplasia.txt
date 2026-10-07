@@ -1,0 +1,19 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimen: A - Rectal polyp
+
+CLINICAL HISTORY: Diagnostic colonoscopy for rectal bleeding. One 18 mm sessile
+polyp removed from the rectum.
+
+GROSS DESCRIPTION: One fragment of tan tissue, 1.8 x 1.2 x 0.6 cm.
+
+MICROSCOPIC DESCRIPTION: Sections show a tubulovillous adenoma with high-grade
+dysplasia. No definite invasive carcinoma is identified in the sections
+examined; however, the degree of architectural distortion warrants cautious
+interpretation.
+
+DIAGNOSIS:
+A. Rectum, polypectomy: Tubulovillous adenoma with high-grade dysplasia.
+
+COMMENT: Given the extent of high-grade dysplasia, correlation with complete
+excision margins and clinical follow-up is recommended.

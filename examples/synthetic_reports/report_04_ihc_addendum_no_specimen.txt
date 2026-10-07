@@ -1,0 +1,16 @@
+PATHOLOGY ADDENDUM REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+ADDENDUM TO PRIOR REPORT
+
+IMMUNOHISTOCHEMICAL ANALYSIS: Immunohistochemistry for mismatch repair (MMR)
+proteins was performed on the previously submitted tissue block. MLH1, MSH2,
+MSH6, and PMS2 show intact nuclear staining in tumor cells, with appropriate
+internal positive control. No loss of nuclear immunostaining is identified.
+
+INTERPRETATION: Intact MMR protein expression; findings do not support Lynch
+syndrome-associated mismatch repair deficiency in this sample.
+
+Note: this addendum does not re-describe or re-identify the original polyp
+specimen by segment or local order - it only reports the IHC result for a
+block already on file. A pipeline target expecting a specific specimen match
+will correctly find no matching specimen label here.

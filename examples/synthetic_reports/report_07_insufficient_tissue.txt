@@ -1,0 +1,17 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimen: A - Descending colon polyp
+
+CLINICAL HISTORY: Screening colonoscopy. One small polyp removed from the
+descending colon.
+
+GROSS DESCRIPTION: Received in formalin, one minute fragment of tissue too
+small to section further, less than 0.1 cm.
+
+MICROSCOPIC DESCRIPTION: The submitted fragment consists almost entirely of
+crush artifact and blood. Residual epithelium is insufficient for diagnostic
+evaluation.
+
+DIAGNOSIS:
+A. Descending colon, polypectomy: Tissue received and processed; insufficient
+   for diagnosis.

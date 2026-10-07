@@ -1,0 +1,83 @@
+{
+  "_comment": "All reports in synthetic_reports/ are fabricated for demonstration only - no real patient, report, or institutional data. 'simulated_raw_codes' represents a plausible raw model extraction for each report (used to demonstrate the deterministic validation rules and guideline calculators) rather than output from an actual model run.",
+
+  "report_01_simple_adenoma.txt": {
+    "simulated_raw_codes": [3],
+    "specimen_found": true,
+    "size_mm": 6,
+    "expected_diverted": false,
+    "expected_final_codes": [3],
+    "expected_usmstf_interval": "7-10yr",
+    "expected_esge_interval": "LOW_RISK_RETURN_TO_SCREENING"
+  },
+
+  "report_02_multi_specimen_matching.txt": {
+    "_demonstrates": "specimen_matching.add_local_segment_order / build_specimen_context only - target is sigmoid polyp local order 2, which must resolve to specimen C, not B",
+    "segment": "Sigmoid colon",
+    "local_segment_order": 2,
+    "expected_specimen_match": "C",
+    "simulated_raw_codes_for_specimen_C": [4],
+    "specimen_found": true,
+    "size_mm": 8,
+    "expected_diverted": false,
+    "expected_final_codes": [4],
+    "expected_usmstf_interval": "3yr",
+    "expected_esge_interval": "LOW_RISK_RETURN_TO_SCREENING"
+  },
+
+  "report_03_high_grade_dysplasia.txt": {
+    "simulated_raw_codes": [4, 8],
+    "specimen_found": true,
+    "size_mm": 18,
+    "expected_diverted": true,
+    "expected_diversion_reason_contains": "Mandatory high-stakes review",
+    "expected_final_codes": [77]
+  },
+
+  "report_04_ihc_addendum_no_specimen.txt": {
+    "simulated_raw_codes": [77],
+    "specimen_found": false,
+    "expected_diverted": true,
+    "expected_diversion_reason_contains": "IHC/molecular report with no specimen identified",
+    "expected_final_codes": [77]
+  },
+
+  "report_05_other_vocabulary_term.txt": {
+    "simulated_raw_codes": [99],
+    "simulated_other_text": "lymphoid follicle",
+    "specimen_found": true,
+    "size_mm": 4,
+    "expected_diverted": false,
+    "expected_final_codes": [99],
+    "expected_usmstf_interval": "10yr",
+    "expected_esge_interval": "LOW_RISK_RETURN_TO_SCREENING"
+  },
+
+  "report_06_fragment_language.txt": {
+    "simulated_raw_codes": [3],
+    "specimen_found": true,
+    "size_mm": 5,
+    "expected_diverted": false,
+    "expected_final_codes": [3],
+    "expected_usmstf_interval": "7-10yr",
+    "expected_esge_interval": "LOW_RISK_RETURN_TO_SCREENING"
+  },
+
+  "report_07_insufficient_tissue.txt": {
+    "simulated_raw_codes": [99],
+    "simulated_other_text": "insufficient tissue for diagnosis",
+    "specimen_found": true,
+    "size_mm": null,
+    "expected_diverted": false,
+    "expected_final_codes": [99]
+  },
+
+  "report_08_impossible_combination.txt": {
+    "simulated_raw_codes": [2, 3],
+    "specimen_found": true,
+    "size_mm": 5,
+    "expected_diverted": true,
+    "expected_diversion_reason_contains": "Impossible combination",
+    "expected_final_codes": [77]
+  }
+}

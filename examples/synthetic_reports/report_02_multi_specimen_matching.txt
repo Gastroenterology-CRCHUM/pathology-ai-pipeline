@@ -1,0 +1,23 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimens: A, B, C - Colon polyps, multiple sites
+
+CLINICAL HISTORY: Surveillance colonoscopy. Three polyps removed: one from the
+transverse colon, and two from the sigmoid colon (sigmoid polyp no. 1 and
+sigmoid polyp no. 2).
+
+GROSS DESCRIPTION:
+A. Transverse colon, one fragment, 0.4 cm.
+B. Sigmoid colon polyp no. 1, one fragment, 0.3 cm.
+C. Sigmoid colon polyp no. 2, one fragment, 0.8 cm.
+
+MICROSCOPIC DESCRIPTION AND DIAGNOSIS:
+A. Transverse colon, polypectomy: Hyperplastic polyp.
+B. Sigmoid colon polyp no. 1, polypectomy: Hyperplastic polyp.
+C. Sigmoid colon polyp no. 2, polypectomy: Tubulovillous adenoma, low-grade
+   dysplasia.
+
+Note: this report demonstrates why local, within-segment specimen numbering
+("sigmoid polyp no. 2") must be used instead of the database's global
+procedure-level polyp number when matching a target to its specimen - both B
+and C are in the same segment, and only their local order distinguishes them.

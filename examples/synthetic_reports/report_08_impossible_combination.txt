@@ -1,0 +1,21 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimen: A - Sigmoid colon polyp
+
+CLINICAL HISTORY: Screening colonoscopy. One polyp removed from the sigmoid
+colon.
+
+GROSS DESCRIPTION: One fragment, 0.5 cm.
+
+MICROSCOPIC DESCRIPTION: Ambiguous report text (constructed for this example
+to demonstrate the validation-rule logic): wording in this synthetic report is
+deliberately ambiguous enough that an extraction model might assign both a
+hyperplastic-polyp code and a tubular-adenoma code to the same single
+specimen - a biologically impossible combination for one polyp, since HP and
+conventional adenoma are mutually exclusive architectural diagnoses. This
+example exists to demonstrate the "impossible combination" validation rule
+diverting such an extraction to human review, not to represent a realistic
+report.
+
+DIAGNOSIS:
+A. Sigmoid colon, polypectomy: see above (synthetic ambiguous case).

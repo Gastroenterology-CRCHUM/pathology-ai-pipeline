@@ -1,0 +1,15 @@
+SURGICAL PATHOLOGY REPORT (SYNTHETIC EXAMPLE - NOT A REAL PATIENT)
+
+Specimen: A - Sigmoid colon polyp
+
+CLINICAL HISTORY: Screening colonoscopy. Single 6 mm sessile polyp removed from
+the sigmoid colon, first polyp in this segment.
+
+GROSS DESCRIPTION: Received in formalin, one fragment of tan-pink tissue
+measuring 0.6 x 0.4 x 0.3 cm.
+
+MICROSCOPIC DESCRIPTION: Sections show colonic mucosa with a tubular adenoma,
+low-grade dysplasia. No high-grade dysplasia or invasive carcinoma identified.
+
+DIAGNOSIS:
+A. Sigmoid colon, polypectomy: Tubular adenoma, low-grade dysplasia.
