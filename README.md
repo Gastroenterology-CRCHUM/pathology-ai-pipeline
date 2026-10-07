@@ -1,13 +1,13 @@
 # pathology-ai-pipeline
 
-AI-assisted extraction of structured histology findings from free-text colon
+AI-assisted extraction of structured histology findings from free-text
 polyp pathology reports, paired with deterministic safety rules and
 guideline-based post-polypectomy surveillance interval calculators.
 
 This repository accompanies the manuscript *"Artificial intelligence-assisted
 pathology processing for post-polypectomy surveillance"* (Kmeyha L,
 Kandlikar-Bloch M, Moulla R, et al.; corresponding author: Daniel von Renteln,
-MD). It's scoped to the manuscript's polyp_assessment analysis only, and
+MD). It's scoped to the manuscript's analysis only, and
 contains the pipeline's actual logic, prompt, codebook, and statistical
 methods - fully generic and re-runnable - but **no patient data** (see
 [What this repository does not contain](#what-this-repository-does-not-contain)).
@@ -17,15 +17,11 @@ methods - fully generic and re-runnable - but **no patient data** (see
 
 ## The clinical problem
 
-How soon a patient should return for another colonoscopy depends on the
-*histology* of every polyp removed, which lives in free-text pathology
-reports, not structured fields. Extracting that at scale by hand doesn't
-work, and naive automated extraction is dangerous if it's silently wrong on
-the cases that matter most (high-grade dysplasia, cancer, multi-specimen
-reports). This pipeline uses an LLM for extraction, wrapped in deterministic
+How soon a patient should return for a colonoscopy depends on the
+histology of every polyp removed, which lives in pathology
+reports. Extracting pathology results at scale by hand is time-consuming. This pipeline uses an LLM for extraction, wrapped in deterministic
 rules that force every high-stakes or ambiguous case to human review instead
-of guessing, then applies surveillance guidelines only to the targets it's
-actually confident about.
+of guessing. Surveillance intervals are then applied to any cases where all polyps were extracted by the LLM (no human review), and an automatic follow-up interval is assigned to the patient based on USMSTF and ESGE guidelines. 
 
 ## Pipeline overview
 
@@ -34,10 +30,10 @@ and polyp number - see [What this repository does not contain](#what-this-reposi
 
 1. **Specimen matching** ([`specimen_matching.py`](src/pathology_pipeline/specimen_matching.py)) -
    match a target polyp to its specimen in the report using a *local,
-   within-segment* order instead of the database's global polyp number.
+   within-segment* order instead of the database's (REDCap) global polyp number.
 2. **LLM extraction** ([`prompt.py`](src/pathology_pipeline/prompt.py),
    [`llm_client.py`](src/pathology_pipeline/llm_client.py)) - send the report
-   and specimen hints to the model (Qwen 2.5 72B via Ollama), get back
+   and specimen information to the model (Qwen 2.5 72B via Ollama), and get backthe corresponding 
    histology code(s) and diagnosis text as JSON.
 3. **Deterministic validation** ([`validation_rules.py`](src/pathology_pipeline/validation_rules.py)) -
    accept the extraction or divert it to human review (mandatory for any
@@ -67,7 +63,7 @@ tests/                     unit tests for every module above
 docs/workflow.svg          pipeline diagram shown above
 ```
 
-Each module is documented in its own docstrings - this README stays at the
+Each module is documented in its own docstrings; this README stays at the
 overview level.
 
 ## How to run
@@ -116,9 +112,7 @@ credentials, and no broader institutional infrastructure. Every file under
 `examples/synthetic_reports/` is fabricated and labeled as such. There is
 also no translation step and no data-ingestion/ETL step - this package
 starts from an already-structured target (report text, segment, polyp
-number). If you believe any file here inadvertently contains real patient or
-institutional data or credentials, please open an issue rather than a pull
-request.
+number). As such, anyone who wishes to use this code will first need to structure their data accordingly, or modify the existing pipeline.
 
 ## Citation
 
