@@ -13,8 +13,8 @@ authors:
     given-names: Ramy
   - family-names: von Renteln
     given-names: Daniel
-    email: TODO-confirm-public-contact-email-before-release
-repository-code: "TODO: add repository URL once published"
+    email: mira.kandlikar-bloch.chum@ssss.gouv.qc.ca
+repository-code: "https://github.com/Gastroenterology-CRCHUM/pathology-ai-pipeline"
 license: MIT
 preferred-citation:
   type: article
