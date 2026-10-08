@@ -33,7 +33,7 @@ and polyp number - see [What this repository does not contain](#what-this-reposi
    within-segment* order instead of the database's (REDCap) global polyp number.
 2. **LLM extraction** ([`prompt.py`](src/pathology_pipeline/prompt.py),
    [`llm_client.py`](src/pathology_pipeline/llm_client.py)) - send the report
-   and specimen information to the model (Qwen 2.5 72B via Ollama), and get backthe corresponding 
+   and specimen information to the model (Qwen 2.5 72B via Ollama), and get back the corresponding 
    histology code(s) and diagnosis text as JSON.
 3. **Deterministic validation** ([`validation_rules.py`](src/pathology_pipeline/validation_rules.py)) -
    accept the extraction or divert it to human review (mandatory for any
