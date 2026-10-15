@@ -35,6 +35,16 @@ SIZE_SENTINEL_VALUES = {77, 88}  # source-database sentinels: 77 = N/A, 88 = not
 
 INTERVAL_ORDER = ["1yr", "3yr", "3-5yr", "5-10yr", "7-10yr", "10yr"]
 
+# Year range covered by each interval category, used for concordance scoring.
+INTERVAL_RANGES = {
+    "1yr": (1, 1),
+    "3yr": (3, 3),
+    "3-5yr": (3, 5),
+    "5-10yr": (5, 10),
+    "7-10yr": (7, 10),
+    "10yr": (10, 10),
+}
+
 
 def clean_size(raw_size) -> Optional[float]:
     """Convert a raw polyp-size value to mm, or None if missing/sentinel."""
@@ -119,9 +129,45 @@ def patient_recommendation(polyps: List[Dict], any_diverted: bool) -> str:
     """
     Wraps usmstf_interval() with the safety rule: if any polyp for this exam was
     diverted to manual review (uncertain/conflicting extraction), the whole
-    patient's recommendation is flagged for manual review rather than computed
-    from partial data - an unresolved polyp could itself be high-risk.
+    exam's (procedure's) recommendation is flagged for manual review rather than
+    computed from partial data - an unresolved polyp could itself be high-risk.
+    Recommendations are per procedure, not per patient across visits.
     """
     if any_diverted:
         return "NEEDS_MANUAL_REVIEW"
     return usmstf_interval(polyps)
+
+
+def _within(inner: str, outer: str) -> bool:
+    (i_lo, i_hi), (o_lo, o_hi) = INTERVAL_RANGES[inner], INTERVAL_RANGES[outer]
+    return o_lo <= i_lo and i_hi <= o_hi
+
+
+def intervals_concordant(predicted: str, reference: str) -> bool:
+    """
+    Concordance rule used for the manuscript's USMSTF results: two recommendations
+    agree when one interval falls within the other (e.g. "10yr" vs "7-10yr", or
+    "7-10yr" vs "10yr"), since a recommendation inside the guideline range is a
+    correct recommendation. Ranges that only touch at an endpoint without either
+    containing the other (e.g. "3-5yr" vs "5-10yr") are discordant.
+
+    "CANCER" (and any other non-interval value) only agrees with itself.
+    """
+    if predicted == reference:
+        return True
+    if predicted not in INTERVAL_RANGES or reference not in INTERVAL_RANGES:
+        return False
+    return _within(predicted, reference) or _within(reference, predicted)
+
+
+def is_longer_interval(predicted: str, reference: str) -> bool:
+    """
+    True if a discordant predicted recommendation is a longer (later) interval than
+    the reference, the clinically less safe direction. Disagreements involving
+    "CANCER" are not on the interval scale and return False.
+    """
+    if predicted not in INTERVAL_RANGES or reference not in INTERVAL_RANGES:
+        return False
+    if intervals_concordant(predicted, reference):
+        return False
+    return INTERVAL_ORDER.index(predicted) > INTERVAL_ORDER.index(reference)

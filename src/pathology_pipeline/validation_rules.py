@@ -125,6 +125,11 @@ def apply_validation_rules(
     in order (first match wins). Returns the final ExtractionResult: either the
     original extraction (accepted) or a diverted result (code 77, flagged for
     human review) with the reason recorded.
+
+    A code-77 answer from the model itself (no matching specimen found) is
+    returned unchanged rather than flagged here, but it carries no automated
+    histology code: in the manuscript's evaluation such targets are counted as
+    routed to human review ("no matching specimen identified").
     """
     labels = [POLYP_CODES.get(c, f"Unknown ({c})") for c in codes]
     has_impossible, impossible_reason, has_multi, multi_reason = detect_conflicts(codes)

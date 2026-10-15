@@ -83,7 +83,11 @@ def esge_interval(polyps: List[Dict]) -> str:
 
 
 def patient_recommendation(polyps: List[Dict], any_diverted: bool) -> str:
-    """Same diversion safety rule as usmstf.patient_recommendation."""
+    """
+    Same diversion safety rule as usmstf.patient_recommendation (one
+    recommendation per procedure). ESGE categories do not overlap, so
+    concordance with a reference recommendation requires an exact match.
+    """
     if any_diverted:
         return "NEEDS_MANUAL_REVIEW"
     return esge_interval(polyps)

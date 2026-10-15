@@ -5,7 +5,7 @@ polyp pathology reports, paired with deterministic safety rules and
 guideline-based post-polypectomy surveillance interval calculators.
 
 This repository accompanies the manuscript *"Artificial intelligence-assisted
-pathology processing for post-polypectomy surveillance"* (Kmeyha L,
+pathology report processing for post-polypectomy surveillance"* (Kmeyha L,
 Kandlikar-Bloch M, Moulla R, et al.; corresponding author: Daniel von Renteln,
 MD). It's scoped to the manuscript's analysis only, and
 contains the pipeline's actual logic, prompt, codebook, and statistical
@@ -21,7 +21,7 @@ How soon a patient should return for a colonoscopy depends on the
 histology of every polyp removed, which lives in pathology
 reports. Extracting pathology results at scale by hand is time-consuming. This pipeline uses an LLM for extraction, wrapped in deterministic
 rules that force every high-stakes or ambiguous case to human review instead
-of guessing. Surveillance intervals are then applied to any cases where all polyps were extracted by the LLM (no human review), and an automatic follow-up interval is assigned to the patient based on USMSTF and ESGE guidelines. 
+of guessing. Surveillance intervals are then applied to any procedure in which all polyps were extracted by the LLM (no human review), and an automatic follow-up interval is assigned to that procedure based on USMSTF and ESGE guidelines.
 
 ## Pipeline overview
 
@@ -33,7 +33,7 @@ and polyp number - see [What this repository does not contain](#what-this-reposi
    within-segment* order instead of the database's (REDCap) global polyp number.
 2. **LLM extraction** ([`prompt.py`](src/pathology_pipeline/prompt.py),
    [`llm_client.py`](src/pathology_pipeline/llm_client.py)) - send the report
-   and specimen information to the model (Qwen 2.5 72B via Ollama), and get back the corresponding 
+   and specimen information to the model (Qwen 2.5 72B via Ollama), and get back the corresponding
    histology code(s) and diagnosis text as JSON.
 3. **Deterministic validation** ([`validation_rules.py`](src/pathology_pipeline/validation_rules.py)) -
    accept the extraction or divert it to human review (mandatory for any
@@ -41,10 +41,14 @@ and polyp number - see [What this repository does not contain](#what-this-reposi
    likely multi-specimen mixups, or IHC/molecular addenda with no specimen).
 4. **Surveillance calculation** ([`usmstf.py`](src/pathology_pipeline/usmstf.py),
    [`esge.py`](src/pathology_pipeline/esge.py)) - apply the USMSTF (2020) and
-   ESGE guidelines to accepted findings for a recommended interval.
+   ESGE guidelines to accepted findings for a recommended interval. For
+   concordance scoring, two USMSTF recommendations agree when one interval falls
+   within the other (e.g. 10 vs. 7-10 years); see `intervals_concordant()`. ESGE
+   categories do not overlap and require an exact match.
 5. **Evaluation** ([`stats.py`](src/pathology_pipeline/stats.py)) - precision/
    recall/F1 and confidence intervals against a reference standard, using the
-   same methodology as the manuscript's reported results.
+   same methodology as the manuscript's reported results (see
+   [Statistical methodology](#statistical-methodology)).
 
 ## Repository layout
 
@@ -60,7 +64,6 @@ src/pathology_pipeline/
   stats.py                 precision/recall/F1, bootstrap CI, Wilson CI
 examples/                  synthetic reports + expected outputs + demo script
 tests/                     unit tests for every module above
-docs/workflow.svg          pipeline diagram shown above
 ```
 
 Each module is documented in its own docstrings; this README stays at the
@@ -88,6 +91,35 @@ To run the extraction step against a real model, point
 other model/endpoint) and chain it with `build_prompt()` /
 `apply_validation_rules()` - see the docstrings in those modules for the
 exact call shapes.
+
+## Statistical methodology
+
+Definitions match the manuscript's Methods and Supplementary Table 2s.
+
+- **Routing to human review.** A target routed to review (any validation rule
+  firing, or the model returning code 77 because no matching specimen was found)
+  receives no automated histology code.
+- **Automated coverage** - proportion of evaluable targets classified
+  automatically. **Automated accuracy** - exact code agreement among
+  automatically classified targets only.
+- **Conditional recall and conditional F1** - calculated among automatically
+  classified targets only; routed targets are excluded from all denominators.
+  Precision is unaffected, because routed targets receive no code. To reproduce
+  these with `precision_recall_f1()` / `micro_f1()` / `macro_f1()`, pass only
+  non-diverted targets (or use `automated_recall()`).
+- **Macro-averaged conditional F1** - mean over categories with a defined F1.
+  High-grade dysplasia and cancer are excluded for both pipeline versions, since
+  mandatory review makes their F1 undefined in the optimized pipeline; they are
+  assessed separately as high-risk misses.
+- **Surveillance concordance** - one recommendation per procedure, computed only
+  for procedures in which every polyp was classified automatically
+  (procedure-level automated coverage). USMSTF recommendations agree when one
+  interval falls within the other (`usmstf.intervals_concordant()`); ESGE
+  categories require an exact match. Disagreements involving "cancer" are not
+  classified as longer or shorter intervals.
+- **Confidence intervals** - nonparametric cluster bootstrap resampling patients
+  (5,000 resamples, 2.5th-97.5th percentiles; `cluster_bootstrap_ci()`), with a
+  Wilson score interval for zero-event proportions (`wilson_score_interval()`).
 
 ## Model/runtime configuration
 

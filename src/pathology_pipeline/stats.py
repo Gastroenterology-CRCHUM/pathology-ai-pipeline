@@ -2,10 +2,11 @@
 Statistical analysis utilities used to generate the main performance results.
 
 Implements:
-    - per-category precision / recall / F1 ("automated" convention: diverted
-      targets are excluded from the denominator, consistent with "automated
-      accuracy" - see `automated_recall`)
-    - micro- and macro-averaged F1, with the macro average computed only over
+    - per-category precision / conditional recall / conditional F1: targets
+      routed to human review (diverted) receive no code and are excluded from
+      all denominators, so recall and F1 are conditional on automated
+      classification (precision is unaffected) - see `automated_recall`
+    - micro- and macro-averaged conditional F1, with the macro average computed only over
       categories that have a *defined* F1 (categories where mandatory
       high-stakes diversion structurally prevents any non-diverted true
       positive - e.g. high-grade dysplasia, cancer - are excluded from the
@@ -30,7 +31,8 @@ import pandas as pd
 
 def automated_recall(y_true: Sequence, y_pred: Sequence, diverted: Sequence[bool], positive_label) -> Optional[float]:
     """
-    Recall for `positive_label`, conditional on automated classification: targets
+    Conditional recall (as reported in the manuscript) for `positive_label`,
+    conditional on automated classification: targets
     routed to human review (diverted=True) are excluded from the denominator,
     consistent with "automated accuracy" - a target the pipeline declined to
     classify automatically is not a miss by the classifier, it's a deferral.
@@ -49,7 +51,11 @@ def automated_recall(y_true: Sequence, y_pred: Sequence, diverted: Sequence[bool
 
 
 def precision_recall_f1(y_true: Sequence, y_pred: Sequence, label) -> Dict[str, Optional[float]]:
-    """Standard (non-diversion-aware) precision/recall/F1 for one label."""
+    """
+    Precision/recall/F1 for one label. Not diversion-aware: to reproduce the
+    manuscript's conditional metrics, pass only automatically classified
+    (non-diverted) targets.
+    """
     tp = sum(1 for t, p in zip(y_true, y_pred) if t == label and p == label)
     fp = sum(1 for t, p in zip(y_true, y_pred) if t != label and p == label)
     fn = sum(1 for t, p in zip(y_true, y_pred) if t == label and p != label)
@@ -64,7 +70,11 @@ def precision_recall_f1(y_true: Sequence, y_pred: Sequence, label) -> Dict[str, 
 
 
 def micro_f1(y_true: Sequence, y_pred: Sequence, labels: Sequence) -> float:
-    """Micro-averaged F1 across `labels` (pools TP/FP/FN before computing)."""
+    """
+    Micro-averaged F1 across `labels` (pools TP/FP/FN before computing). Pass only
+    automatically classified (non-diverted) targets to obtain the manuscript's
+    micro-averaged conditional F1.
+    """
     tp = fp = fn = 0
     for label in labels:
         tp += sum(1 for t, p in zip(y_true, y_pred) if t == label and p == label)

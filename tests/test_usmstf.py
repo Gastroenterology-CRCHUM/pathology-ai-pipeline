@@ -3,7 +3,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from pathology_pipeline.usmstf import clean_size, usmstf_interval  # noqa: E402
+from pathology_pipeline.usmstf import (  # noqa: E402
+    clean_size,
+    intervals_concordant,
+    is_longer_interval,
+    usmstf_interval,
+)
 
 
 def poly(codes, size_mm=None):
@@ -77,3 +82,33 @@ def test_clean_size_handles_sentinel_values():
 def test_diverted_polyp_forces_manual_review_not_a_computed_interval():
     from pathology_pipeline.usmstf import patient_recommendation
     assert patient_recommendation([poly([3], size_mm=4)], any_diverted=True) == "NEEDS_MANUAL_REVIEW"
+
+
+def test_interval_within_reference_range_is_concordant():
+    assert intervals_concordant("10yr", "7-10yr")
+    assert intervals_concordant("3yr", "3-5yr")
+
+
+def test_reference_within_predicted_range_is_concordant():
+    assert intervals_concordant("7-10yr", "10yr")
+    assert intervals_concordant("5-10yr", "7-10yr")
+
+
+def test_ranges_touching_only_at_endpoint_are_discordant():
+    assert not intervals_concordant("3-5yr", "5-10yr")
+
+
+def test_non_overlapping_intervals_are_discordant():
+    assert not intervals_concordant("10yr", "3yr")
+
+
+def test_cancer_only_matches_cancer():
+    assert intervals_concordant("CANCER", "CANCER")
+    assert not intervals_concordant("10yr", "CANCER")
+
+
+def test_longer_interval_direction():
+    assert is_longer_interval("10yr", "3yr")
+    assert not is_longer_interval("3yr", "10yr")
+    assert not is_longer_interval("10yr", "7-10yr")  # concordant, not a disagreement
+    assert not is_longer_interval("10yr", "CANCER")
